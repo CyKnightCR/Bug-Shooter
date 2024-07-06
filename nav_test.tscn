@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfasm50d4opjb"]
+
+[ext_resource type="Script" path="res://nav_test.gd" id="1_6w4hn"]
+[ext_resource type="Texture2D" uid="uid://bud7m82ibh7p3" path="res://graphics/explosions/gun.png" id="1_n8772"]
+[ext_resource type="PackedScene" uid="uid://cy77d4nawbygb" path="res://scenes/container/crate.tscn" id="2_c25nf"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_g3w4g"]
+outlines = Array[PackedVector2Array]([PackedVector2Array(-335, 57, 474, -70, 1160, 120, 1627, 574, 1354, 882, 1174, 919, -712, 919)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[node name="NavTest" type="Node2D"]
+script = ExtResource("1_6w4hn")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_g3w4g")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="NavigationRegion2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/NavigationAgent2D"]
+position = Vector2(951.5, 428)
+scale = Vector2(0.616667, 0.539877)
+texture = ExtResource("1_n8772")
+
+[node name="Crate" parent="." instance=ExtResource("2_c25nf")]
+position = Vector2(336, 134)
+
+[node name="Crate3" parent="." instance=ExtResource("2_c25nf")]
+position = Vector2(-220, 404)
+
+[node name="Crate2" parent="." instance=ExtResource("2_c25nf")]
+position = Vector2(536, 572)

@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://nejnnth78lil"]
+
+[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_llhr3"]
+[ext_resource type="PackedScene" uid="uid://cot7qk4x0kf5a" path="res://scenes/ui/ui.tscn" id="3_gawu8"]
+[ext_resource type="PackedScene" uid="uid://dx2fhh1kq1wlr" path="res://scenes/player/player.tscn" id="4_r58o2"]
+
+[sub_resource type="GDScript" id="GDScript_is72y"]
+script/source = "extends Node2D
+
+signal laser(pos,player_direction)
+
+func _on_player_laser_fired(_pos, _layer_direction):
+	pass # Replace with function body.
+"
+
+[node name="level" type="Node2D"]
+script = ExtResource("1_llhr3")
+metadata/_edit_lock_ = true
+
+[node name="Ground" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
+script = SubResource("GDScript_is72y")
+metadata/_edit_lock_ = true
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("4_r58o2")]
+position = Vector2(560, 808)
+scale = Vector2(1.01606, 1.19402)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.6, 0.6)
+position_smoothing_enabled = true
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="UI" parent="." instance=ExtResource("3_gawu8")]
+
+[connection signal="grenade_fired" from="Player" to="." method="_on_player_grenade_fired"]
+[connection signal="laser_fired" from="Player" to="." method="_on_player_laser_fired"]
+[connection signal="laser_fired" from="Player" to="Projectiles" method="_on_player_laser_fired"]

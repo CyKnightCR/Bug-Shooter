@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0j7tq3rrt8m2"]
+
+[ext_resource type="Script" path="res://scenes/enemies/scout.gd" id="1_g4gsw"]
+[ext_resource type="Shader" path="res://scenes/enemies/scout.gdshader" id="2_4vfci"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tn55a"]
+shader = ExtResource("2_4vfci")
+shader_parameter/color = Color(0.898039, 0.133333, 0.188235, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wfpou"]
+load_path = "res://.godot/imported/scout.png-f16ccb8d944c0eed8395aa590300a2d3.ctex"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tjpdr"]
+radius = 56.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_23ix0"]
+radius = 916.066
+
+[node name="Scout" type="CharacterBody2D" groups=["Entity", "Scouts"]]
+collision_layer = 2
+collision_mask = 11
+script = ExtResource("1_g4gsw")
+
+[node name="Scout" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_tn55a")
+position = Vector2(39, 34)
+rotation = 1.57024
+texture = SubResource("CompressedTexture2D_wfpou")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_tjpdr")
+
+[node name="AttackArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(-3, 0)
+shape = SubResource("CircleShape2D_23ix0")
+
+[node name="LaserCooldown" type="Timer" parent="."]
+wait_time = 0.6
+
+[node name="LaerSpawnPos" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="LaerSpawnPos"]
+position = Vector2(118, -25)
+
+[node name="Marker2D2" type="Marker2D" parent="LaerSpawnPos"]
+position = Vector2(130, 23)
+
+[node name="Invulnerable" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="LaserCooldown" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Invulnerable" to="." method="_on_invulnerable_timeout"]
